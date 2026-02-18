@@ -13,12 +13,12 @@
 // Channel A: USART1 (Serial1), TX=PA9, RX=PA10
 // Channel B: USART2 (Serial2), TX=PA2, RX=PA3
 Channel chA(Serial1, USART1,
-            PIN_RXD_A, PIN_CTS_A, PIN_RTS_A,
-            PIN_TXRDY_A, PIN_RXRDY_A, PIN_TXE_A);
+            WD_RXD_A, WD_CTS_A, WD_RTS_A,
+            WD_TXRDY_A, WD_RXRDY_A, WD_TXE_A);
 
 Channel chB(Serial2, USART2,
-            PIN_RXD_B, PIN_CTS_B, PIN_RTS_B,
-            PIN_TXRDY_B, PIN_RXRDY_B, PIN_TXE_B);
+            WD_RXD_B, WD_CTS_B, WD_RTS_B,
+            WD_TXRDY_B, WD_RXRDY_B, WD_TXE_B);
 
 void setup() {
     chA.begin();

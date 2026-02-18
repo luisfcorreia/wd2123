@@ -33,6 +33,45 @@
 #define SR_BRK   0x40u  // Break detected
 #define SR_CTS   0x80u  // CTS pin active (pin LOW = bit HIGH)
 
+// Serial config constants — defined by STM32 Arduino core but guarded;
+// provide fallbacks so this compiles on any core version.
+#ifndef SERIAL_8N1
+#define SERIAL_8N1 0x06
+#endif
+#ifndef SERIAL_8N2
+#define SERIAL_8N2 0x0E
+#endif
+#ifndef SERIAL_7N1
+#define SERIAL_7N1 0x04
+#endif
+#ifndef SERIAL_7N2
+#define SERIAL_7N2 0x0C
+#endif
+#ifndef SERIAL_8E1
+#define SERIAL_8E1 0x26
+#endif
+#ifndef SERIAL_8E2
+#define SERIAL_8E2 0x2E
+#endif
+#ifndef SERIAL_7E1
+#define SERIAL_7E1 0x24
+#endif
+#ifndef SERIAL_7E2
+#define SERIAL_7E2 0x2C
+#endif
+#ifndef SERIAL_8O1
+#define SERIAL_8O1 0x36
+#endif
+#ifndef SERIAL_8O2
+#define SERIAL_8O2 0x3E
+#endif
+#ifndef SERIAL_7O1
+#define SERIAL_7O1 0x34
+#endif
+#ifndef SERIAL_7O2
+#define SERIAL_7O2 0x3C
+#endif
+
 // Baud rate table — 1X factor, index = rateReg[3:0] (Table 5 of datasheet)
 static const uint32_t BAUD_TABLE[16] = {
     800, 1200, 1760, 2150, 2400, 3200, 4800, 9600,

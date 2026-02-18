@@ -35,10 +35,10 @@ static void busWrite(uint8_t val) {
 // ---------------------------------------------------------------------------
 
 static uint8_t decodeSelect() {
-    bool cs1 = (digitalRead(PIN_CS1) == LOW);
-    bool cs2 = (digitalRead(PIN_CS2) == LOW);
-    bool cs3 = (digitalRead(PIN_CS3) == LOW);
-    bool cd  = (digitalRead(PIN_CD)  == HIGH);
+    bool cs1 = (digitalRead(WD_CS1) == LOW);
+    bool cs2 = (digitalRead(WD_CS2) == LOW);
+    bool cs3 = (digitalRead(WD_CS3) == LOW);
+    bool cd  = (digitalRead(WD_CD)  == HIGH);
 
     if      (cs1 && !cs2 && !cs3) return cd ? 1 : 2;
     else if (!cs1 && cs2 && !cs3) return cd ? 3 : 4;
@@ -47,7 +47,7 @@ static uint8_t decodeSelect() {
 }
 
 // ---------------------------------------------------------------------------
-// WE ISR — triggered on falling edge of PIN_WE
+// WE ISR — triggered on falling edge of WD_WE
 // ---------------------------------------------------------------------------
 
 static void onWE() {
@@ -66,13 +66,13 @@ static void onWE() {
 }
 
 // ---------------------------------------------------------------------------
-// RE ISR — triggered on CHANGE of PIN_RE
+// RE ISR — triggered on CHANGE of WD_RE
 //   Falling edge: drive data onto bus
 //   Rising edge:  release bus back to input
 // ---------------------------------------------------------------------------
 
 static void onRE() {
-    if (digitalRead(PIN_RE) == LOW) {
+    if (digitalRead(WD_RE) == LOW) {
         // Falling edge: host is reading — put data on bus
         uint8_t sel = decodeSelect();
         uint8_t val = 0xFF;
@@ -100,20 +100,20 @@ static void onRE() {
 void busBegin() {
     busSetInput();
 
-    pinMode(PIN_CS1, INPUT);
-    pinMode(PIN_CS2, INPUT);
-    pinMode(PIN_CS3, INPUT);
-    pinMode(PIN_CD,  INPUT);
-    pinMode(PIN_MR,  INPUT);
-    pinMode(PIN_WE,  INPUT);
-    pinMode(PIN_RE,  INPUT);
+    pinMode(WD_CS1, INPUT);
+    pinMode(WD_CS2, INPUT);
+    pinMode(WD_CS3, INPUT);
+    pinMode(WD_CD,  INPUT);
+    pinMode(WD_MR,  INPUT);
+    pinMode(WD_WE,  INPUT);
+    pinMode(WD_RE,  INPUT);
 
-    attachInterrupt(digitalPinToInterrupt(PIN_WE), onWE, FALLING);
-    attachInterrupt(digitalPinToInterrupt(PIN_RE), onRE, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(WD_WE), onWE, FALLING);
+    attachInterrupt(digitalPinToInterrupt(WD_RE), onRE, CHANGE);
 }
 
 void busUpdate() {
-    if (digitalRead(PIN_MR) == HIGH) {
+    if (digitalRead(WD_MR) == HIGH) {
         chA.masterReset();
         chB.masterReset();
     }
